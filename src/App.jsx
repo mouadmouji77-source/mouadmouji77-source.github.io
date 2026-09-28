@@ -5,33 +5,37 @@ import Experience from "./components/Experience/Experience";
 import Projects from "./components/Projects/Projects";
 import Skills from "./components/Skills/Skills";
 import Certifications from "./components/Certifications/Certifications";
+import Contact from "./components/Contact/Contact";
 
 // Composant racine : assemble les sections dans l'ordre de la page.
-// Les sections suivantes (Expérience, Projets...) seront
-// ajoutées une par une, après validation.
 export default function App() {
   return (
-    <main>
-      <Hero />
+    <>
+      <main>
+        <Hero />
 
-      {/* Séparateur bleu marine légèrement incliné */}
-      <Band items={["Data & BI", "Data Engineering", "AI & NLP", "Business Intelligence"]} tilt={-1.5} />
+        {/* Séparateur bleu marine légèrement incliné */}
+        <Band items={["Data & BI", "Data Engineering", "AI & NLP", "Business Intelligence"]} tilt={-1.5} />
 
-      <About />
+        <About />
 
-      <Experience />
+        <Experience />
 
-      <Projects />
+        <Projects />
 
-      {/* Bandeau marine qui introduit les compétences (défile dans l'autre sens) */}
-      <Band items={["Skills", "Power BI", "SQL", "Python", "RAG", "PostgreSQL", "Cloud"]} tilt={1.5} reverse />
+        {/* Bandeau marine qui introduit les compétences (défile dans l'autre sens) */}
+        <Band items={["Skills", "Power BI", "SQL", "Python", "RAG", "PostgreSQL", "Cloud"]} tilt={1.5} reverse />
 
-      <Skills />
+        <Skills />
 
-      <Certifications />
+        <Certifications />
 
-      {/* Espace provisoire pour tester les animations au scroll */}
-      <div style={{ height: "60vh" }} />
-    </main>
+        {/* Grand bandeau d'appel avant le contact */}
+        <Band items={["Let's work together"]} tilt={-1.5} />
+      </main>
+
+      {/* Contact + pied de page (balise <footer>, hors du <main>) */}
+      <Contact />
+    </>
   );
 }

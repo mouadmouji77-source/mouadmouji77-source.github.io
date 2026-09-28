@@ -12,7 +12,10 @@ export default function Band({ items, tilt = 0, reverse = false }) {
   // On répète la liste pour qu'elle soit plus large que l'écran,
   // puis on duplique le groupe : l'animation translateX(-50%) boucle
   // alors sans aucune coupure visible.
-  const repeated = [...items, ...items, ...items];
+  // Au moins ~8 éléments par groupe : même un bandeau d'un seul texte
+  // ("Let's work together") couvre un écran très large sans trou.
+  const times = Math.max(3, Math.ceil(8 / items.length));
+  const repeated = Array.from({ length: times }, () => items).flat();
 
   const group = (hidden) => (
     <ul className={s.group} aria-hidden={hidden || undefined}>
