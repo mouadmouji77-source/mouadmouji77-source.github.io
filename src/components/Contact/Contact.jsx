@@ -8,6 +8,8 @@ import s from "./Contact.module.css";
 
 // Liens affichés en grandes lignes cliquables
 const LINKS = [
+  // tel: ouvre directement l'appel sur mobile
+  { label: "Téléphone", detail: profile.phoneDisplay, href: `tel:${profile.phone}`, icon: "✆" },
   { label: "LinkedIn", detail: "linkedin.com/in/mouad-mouji", href: profile.linkedin, external: true },
   { label: "GitHub", detail: "github.com/mouadmouji77-source", href: profile.github, external: true },
   { label: "CV", detail: "Télécharger mon CV (PDF)", href: profile.cv, download: true },
@@ -87,7 +89,7 @@ export default function Contact() {
                   <span className={s.linkLabel}>{l.label}</span>
                   <span className={s.linkDetail}>{l.detail}</span>
                   <span className={s.linkArrow} aria-hidden="true">
-                    {l.download ? "↓" : "↗"}
+                    {l.icon ?? (l.download ? "↓" : "↗")}
                   </span>
                 </a>
               </li>
