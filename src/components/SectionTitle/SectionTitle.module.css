@@ -1,0 +1,66 @@
+.head {
+  position: relative;
+  isolation: isolate; /* le mot géant (z-index -1) reste derrière le titre, pas derrière la page */
+  margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+.center {
+  text-align: center;
+}
+
+/* Mot géant d'arrière-plan : très grand, très pâle, il déborde exprès.
+   La section parente coupe le débordement (overflow-x: clip). */
+.ghost {
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: -2vw;
+  translate: 0 -50%; /* centrage vertical via `translate`, GSAP garde `transform` pour lui */
+  font-family: var(--f-display);
+  font-size: clamp(7rem, 24vw, 22rem);
+  line-height: 1;
+  color: var(--c-ghost);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+}
+
+.center .ghost {
+  left: 50%;
+  translate: -50% -50%;
+}
+
+.kicker {
+  margin: 0 0 0.3rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--c-red);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--f-display);
+  font-weight: 400;
+  font-size: clamp(3rem, 9vw, 8rem);
+  line-height: 0.88;
+  text-transform: uppercase;
+  color: var(--c-navy);
+}
+
+/* Mot manuscrit rouge, penché, qui "mord" sur le titre */
+.hand {
+  display: inline-block;
+  margin-top: -0.3em;
+  margin-left: clamp(1rem, 6vw, 5rem);
+  font-family: var(--f-hand);
+  font-weight: 700;
+  font-size: clamp(1.8rem, 3.6vw, 3rem);
+  color: var(--c-red);
+  transform: rotate(-5deg);
+}
+
+.center .hand {
+  margin-left: 0;
+}

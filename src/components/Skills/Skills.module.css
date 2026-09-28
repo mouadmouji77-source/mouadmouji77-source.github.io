@@ -1,0 +1,135 @@
+/* Grille "magazine" sur 6 colonnes :
+   ┌─────────────┬─────────────┐
+   │  BI & Data  │   IA & NLP  │   ← 2 grandes fiches (3 colonnes chacune)
+   ├────────┬────┴───┬─────────┤
+   │ Cloud  │Langages│   BDD   │   ← 3 fiches (2 colonnes chacune)
+   └────────┴────────┴─────────┘ */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 1.6rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bi,
+.ai {
+  grid-column: span 3;
+}
+
+.cloud,
+.lang,
+.db {
+  grid-column: span 2;
+}
+
+/* Fiche : bord marine + ombre décalée (même langage que la timeline) */
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--c-white);
+  border: 2px solid var(--c-navy);
+  border-radius: var(--radius);
+  box-shadow: 5px 5px 0 var(--c-navy);
+  overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0 var(--c-navy);
+}
+
+/* En-tête de fiche : bandeau bleu marine */
+.head {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.9rem 1.2rem;
+  background: var(--c-navy);
+  color: var(--c-white);
+}
+
+.num {
+  font-family: var(--f-display);
+  font-size: 1.1rem;
+  color: var(--c-red);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--f-display);
+  font-weight: 400;
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.icon {
+  width: 1.9rem;
+  height: 1.9rem;
+  margin-left: auto;
+  opacity: 0.9;
+}
+
+/* Pastilles de compétences */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 1.1rem 1.2rem 1.2rem;
+  list-style: none;
+}
+
+.chip {
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: #e9ecf2;
+  color: var(--c-navy);
+}
+
+/* Variante contour (frameworks), pour distinguer du langage lui-même */
+.chipOutline {
+  background: transparent;
+  border: 1.5px solid var(--c-navy);
+}
+
+.extraLabel {
+  margin: -0.3rem 1.2rem 0;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-red);
+}
+
+.extraLabel + .chips {
+  padding-top: 0.5rem;
+}
+
+/* Tablette : 2 colonnes régulières */
+@media (max-width: 1000px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .bi,
+  .ai,
+  .cloud,
+  .lang,
+  .db {
+    grid-column: span 1;
+  }
+}
+
+/* Mobile : 1 colonne */
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

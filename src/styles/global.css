@@ -1,0 +1,120 @@
+/* ==========================================================================
+   STYLES GLOBAUX — direction artistique "carnet de croquis + affiche éditoriale"
+   ========================================================================== */
+
+/* --- 1. Variables (design tokens) ---------------------------------------- */
+:root {
+  /* Palette */
+  --c-bg: #f4f5f7;      /* blanc cassé "papier" */
+  --c-navy: #1b2a4a;    /* couleur principale : titres, bandeaux, badges */
+  --c-red: #e63946;     /* accent : sur-titres + mot manuscrit */
+  --c-yellow: #ffd60a;  /* surligneur : à utiliser 1 ou 2 fois MAXIMUM */
+  --c-ghost: #e6e8ec;   /* mots géants en arrière-plan des titres */
+  --c-muted: #56607a;   /* texte secondaire (contraste AA sur le fond) */
+  --c-white: #ffffff;
+
+  /* Polices (avec des polices de secours proches si Google Fonts échoue) */
+  --f-display: "Anton", "Bebas Neue", Impact, "Arial Narrow", sans-serif;
+  --f-body: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-hand: "Caveat", "Kaushan Script", "Segoe Print", cursive;
+
+  /* Espacements et formes */
+  --gutter: clamp(1rem, 4vw, 3.5rem); /* marge latérale de toutes les sections */
+  --radius: 16px;
+  --shadow-soft: 0 12px 32px -14px rgba(27, 42, 74, 0.28);
+}
+
+/* --- 2. Reset léger ------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth; /* défilement doux vers les ancres (#projects...) */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--c-bg);
+  color: var(--c-navy);
+  font-family: var(--f-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden; /* les mots géants débordent volontairement */
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+/* Conteneur commun à toutes les sections (sauf le Hero).
+   overflow-x: clip coupe les mots géants qui débordent, SANS créer
+   de zone de défilement (contrairement à overflow: hidden). */
+.section {
+  position: relative;
+  padding-block: clamp(5rem, 12vh, 9rem);
+  padding-inline: var(--gutter);
+  overflow-x: clip;
+}
+
+/* --- 3. Grain de papier ----------------------------------------------------
+   Un bruit SVG (feTurbulence) encodé en data-URI, posé en calque fixe
+   par-dessus toute la page. mix-blend-mode: multiply le fait "entrer"
+   dans le papier au lieu de le recouvrir. Très subtil volontairement.     */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none; /* le calque ne bloque aucun clic */
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .11 0 0 0 0 .16 0 0 0 0 .29 .16 0 0 0 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
+}
+
+/* --- 4. Accessibilité ----------------------------------------------------- */
+
+/* Contour bien visible pour la navigation au clavier */
+:focus-visible {
+  outline: 3px solid var(--c-red);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Texte lu par les lecteurs d'écran mais invisible à l'écran */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* L'utilisateur a demandé moins d'animations : on coupe tout le CSS animé.
+   (Les animations GSAP sont, elles, désactivées via gsap.matchMedia.) */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

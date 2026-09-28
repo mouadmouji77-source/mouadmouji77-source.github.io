@@ -1,0 +1,70 @@
+/* Calque des doodles, posé par-dessus la "scène" de l'avatar.
+   Les positions sont en % de la scène : ils suivent l'avatar à toutes les tailles. */
+.doodles {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.defs {
+  position: absolute;
+}
+
+.doodle {
+  position: absolute;
+  overflow: visible;
+  filter: url(#rough); /* tremblement "fait main" */
+}
+
+/* Style commun des traits : bleu marine, 2px, bouts arrondis.
+   stroke-dasharray = 1 (= longueur totale grâce à pathLength="1").
+   L'état par défaut (dashoffset 0) est le trait COMPLET : si le JS
+   ou les animations sont désactivés, les doodles restent visibles. */
+.doodle :global(.js-draw) {
+  fill: none;
+  stroke: var(--c-navy);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+.tagText {
+  font-family: var(--f-body);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  fill: var(--c-navy);
+}
+
+/* --- Positions (propriété `rotate` séparée de `transform`,
+       pour ne pas entrer en conflit avec les transformations GSAP) --- */
+/* Le bras tendu de hero-color.png occupe le haut à droite (≈ 13–25 % de la hauteur) :
+   aucun doodle n'est placé dans cette zone pour ne pas cacher la main. */
+.arrowIn    { width: 7.5rem; left: -24%; top: 50%; rotate: -4deg; }
+.arrowLoop  { width: 8.5rem; right: -22%; top: 46%; }
+.starA      { width: 2.4rem; left: 6%;  top: 6%;  rotate: -12deg; }
+.starB      { width: 1.7rem; right: 12%; top: 64%; rotate: 14deg; }
+.sparkle    { width: 2rem;   left: -8%; top: 34%; }
+.tagSql     { width: 4.9rem; left: -10%; top: 17%; rotate: -10deg; }
+.tagPowerbi { width: 7.6rem; right: -16%; top: 31%; rotate: 7deg; }
+.tagPython  { width: 6.8rem; right: -8%;  bottom: 17%; rotate: -5deg; }
+.tagRag     { width: 4.8rem; left: -4%;  bottom: 32%; rotate: 9deg; }
+.pencil     { width: 7.5rem; left: -16%; bottom: 7%; rotate: -18deg; }
+.db         { width: 3.6rem; right: -12%; top: 16%; rotate: 6deg; } /* sous le bout du doigt, hors du mot géant */
+
+/* --- Mobile : version simplifiée, doodles plus petits et moins nombreux --- */
+@media (max-width: 820px) {
+  .optional {
+    display: none;
+  }
+  .arrowIn    { display: none; } /* le texte est sous l'avatar : la flèche n'a plus de sens */
+  .tagSql     { width: 3.8rem; left: -6%; }
+  .tagPowerbi { width: 5.8rem; right: -10%; }
+  .tagPython  { width: 5.2rem; right: -6%; }
+  .tagRag     { width: 3.8rem; left: -6%; }
+  .db         { width: 2.6rem; }
+  .starA      { width: 1.8rem; }
+}

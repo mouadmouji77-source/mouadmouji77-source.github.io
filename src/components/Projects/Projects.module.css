@@ -1,0 +1,338 @@
+/* ---------- Filtres ---------- */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: -1rem 0 clamp(2rem, 5vw, 3.5rem);
+}
+
+.filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1.05rem;
+  border: 2px solid var(--c-navy);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--c-navy);
+  font: 600 0.85rem var(--f-body);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+
+.filter:hover {
+  transform: translateY(-2px);
+}
+
+/* Filtre actif : plein bleu marine */
+.filter[aria-pressed="true"] {
+  background: var(--c-navy);
+  color: var(--c-white);
+}
+
+.count {
+  font-size: 0.7rem;
+  color: var(--c-red);
+}
+
+/* ---------- Zone de travail : rail avatar | liste ---------- */
+.workArea {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(9rem, 16rem) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+}
+
+/* Calque des câbles : couvre toute la zone, ne bloque aucun clic.
+   Il passe DERRIÈRE les cartes (z-index 1 < 2) : les câbles restent visibles
+   entre l'avatar et les cartes, mais ne recouvrent jamais leur texte. */
+.cables {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.cable {
+  fill: none;
+  stroke: var(--c-navy);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+/* Fiche au bout du câble */
+.plug {
+  fill: var(--c-red);
+  stroke: var(--c-navy);
+  stroke-width: 2;
+}
+
+.rail {
+  position: relative;
+}
+
+/* L'avatar reste visible pendant qu'on fait défiler les projets */
+.pullAvatar {
+  position: sticky;
+  top: 18vh;
+  width: 100%;
+  /* Même ratio que pulling.png (1024×1536) : pas de marge vide autour de l'image,
+     donc la constante HANDS de Projects.jsx vise exactement les mains */
+  aspect-ratio: 2 / 3;
+  z-index: 4; /* devant les câbles : ils partent de ses mains */
+}
+
+/* ---------- Liste des cartes ---------- */
+.list {
+  position: relative;
+  z-index: 2; /* au-dessus des câbles */
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.25rem, 2.5vw, 2rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex; /* les cartes d'une même ligne ont la même hauteur */
+}
+
+/* La carte vedette occupe toute la largeur */
+.itemFeatured {
+  grid-column: 1 / -1;
+}
+
+/* ---------- Carte ---------- */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: var(--c-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s;
+}
+
+/* Survol : léger zoom + inclinaison */
+.card:hover {
+  transform: scale(1.025) rotate(-1deg);
+  box-shadow: 0 24px 48px -18px rgba(27, 42, 74, 0.38);
+}
+
+/* Prise de connexion sur le bord gauche, là où arrive le câble */
+.port {
+  position: absolute;
+  left: 0;
+  top: min(50%, 110px);
+  translate: -50% -50%;
+  z-index: 2;
+  width: 0.9rem;
+  height: 1.6rem;
+  border-radius: 4px;
+  background: var(--c-navy);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: clamp(1.2rem, 2.2vw, 1.7rem);
+}
+
+.cat {
+  margin: 0 0 0.3rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-red);
+}
+
+.star {
+  color: var(--c-navy);
+}
+
+.title {
+  margin: 0 0 0.6rem;
+  font-family: var(--f-display);
+  font-weight: 400;
+  font-size: clamp(1.7rem, 2.8vw, 2.4rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.desc {
+  margin: 0 0 1rem;
+  font-size: 0.93rem;
+  color: var(--c-muted);
+}
+
+/* Points forts : numérotés en rouge, style carnet */
+.highlights {
+  counter-reset: pf;
+  margin: 0 0 1.1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.highlights li {
+  counter-increment: pf;
+  position: relative;
+  padding-left: 1.8rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.highlights li::before {
+  content: "0" counter(pf);
+  position: absolute;
+  left: 0;
+  top: 0.05em;
+  font-family: var(--f-display);
+  font-size: 0.95rem;
+  color: var(--c-red);
+}
+
+.stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: auto 0 1.1rem; /* auto : pousse la stack et le lien en bas de carte */
+  padding: 0;
+  list-style: none;
+}
+
+.stack li {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  background: var(--c-navy);
+  color: var(--c-white);
+}
+
+.link {
+  align-self: flex-start;
+  font-weight: 600;
+  font-size: 0.88rem;
+  text-decoration: none;
+  border-bottom: 2px solid var(--c-red);
+  padding-bottom: 1px;
+}
+
+.link span {
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+.link:hover span {
+  transform: translateX(4px);
+}
+
+/* Information à confirmer : pointillés rouges */
+.todo {
+  margin: 0 0 1rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--c-red);
+  border: 1.5px dashed var(--c-red);
+  border-radius: 6px;
+  padding: 0.3rem 0.6rem;
+}
+
+/* ---------- Carte vedette : mini-hero en 2 colonnes ---------- */
+.featured {
+  flex-direction: row-reverse; /* visuel à droite, texte à gauche */
+  background: var(--c-navy);
+  color: var(--c-white);
+}
+
+.featured > div:first-of-type {
+  /* le visuel */
+  flex: 1 1 52%;
+  aspect-ratio: auto;
+  min-height: 22rem;
+  padding: 6%; /* la maquette flotte au centre, au lieu d'être posée en bas */
+  background-color: #24365d;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1.2px);
+}
+
+.featured .body {
+  flex: 1 1 48%;
+  padding: clamp(1.5rem, 3vw, 2.6rem);
+}
+
+.featured .title {
+  font-size: clamp(2.6rem, 5vw, 4.6rem);
+  line-height: 0.9;
+}
+
+.featured .star {
+  color: var(--c-white);
+}
+
+.featured .desc {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.featured .stack li {
+  background: var(--c-white);
+  color: var(--c-navy);
+}
+
+.featured .link {
+  color: var(--c-white);
+}
+
+.featured .port {
+  background: var(--c-red);
+}
+
+/* ---------- Tablette : liste sur une colonne ---------- */
+@media (max-width: 1100px) {
+  .list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .featured {
+    flex-direction: column;
+  }
+
+  .featured > div:first-of-type {
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+  }
+}
+
+/* ---------- Mobile : plus de rail ni de câbles ---------- */
+@media (max-width: 820px) {
+  .workArea {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cables,
+  .port {
+    display: none;
+  }
+
+  .pullAvatar {
+    position: static;
+    width: min(45%, 11rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cables {
+    display: none;
+  }
+  .card:hover {
+    transform: none;
+  }
+}

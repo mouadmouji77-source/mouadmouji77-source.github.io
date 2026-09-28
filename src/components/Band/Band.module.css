@@ -1,0 +1,61 @@
+.band {
+  position: relative;
+  z-index: 5;
+  /* Un peu plus large que l'écran pour que l'inclinaison ne laisse pas de trous */
+  width: 104vw;
+  margin-left: -2vw;
+  background: var(--c-navy);
+  color: var(--c-white);
+  padding-block: 1rem;
+  overflow: hidden;
+  transform: rotate(var(--tilt, 0deg));
+}
+
+/* La piste contient 2 groupes identiques côte à côte */
+.track {
+  display: flex;
+  width: max-content;
+  animation: defilement 38s linear infinite;
+}
+
+.reverse {
+  animation-direction: reverse;
+}
+
+.group {
+  display: flex;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  font-weight: 600;
+  font-size: clamp(0.8rem, 1.3vw, 1.05rem);
+  text-transform: uppercase;
+  letter-spacing: 0.32em; /* majuscules espacées, style affiche */
+}
+
+.star {
+  color: var(--c-red);
+  margin-inline: 1.6rem;
+  letter-spacing: 0;
+}
+
+/* On décale de la moitié : le 2e groupe prend exactement la place du 1er */
+@keyframes defilement {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Mouvement réduit : bandeau statique */
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+  }
+}

@@ -1,0 +1,342 @@
+/* Zone d'illustration : fond bleuté avec une trame de points (papier pointillé) */
+.stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 10;
+  padding: 7% 8% 0;
+  overflow: hidden;
+  background-color: #e9ecf2;
+  background-image: radial-gradient(rgba(27, 42, 74, 0.14) 1px, transparent 1.2px);
+  background-size: 14px 14px;
+}
+
+/* ---------- Éléments communs ---------- */
+.lines {
+  display: grid;
+  gap: 5px;
+  flex: 1;
+}
+
+.line {
+  height: 6px;
+  border-radius: 3px;
+  background: #d5dae4;
+}
+
+.line:last-child {
+  width: 65%;
+}
+
+/* ---------- Navigateur ---------- */
+.browser {
+  width: 100%;
+  height: 100%;
+  align-self: end;
+  display: flex;
+  flex-direction: column;
+  background: var(--c-white);
+  border: 2px solid var(--c-navy);
+  border-bottom: 0;
+  border-radius: 10px 10px 0 0;
+  overflow: hidden;
+}
+
+.chrome {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 0.6rem;
+  background: var(--c-navy);
+}
+
+.dots {
+  display: flex;
+  gap: 4px;
+}
+
+.dots i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.dots i:first-child {
+  background: var(--c-red);
+}
+
+.url {
+  flex: 1;
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  padding: 0.1rem 0.6rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.page {
+  padding: 0.7rem 0.9rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 4px;
+  background: var(--c-red);
+}
+
+.navLinks {
+  width: 40%;
+  height: 6px;
+  border-radius: 3px;
+  background: #d5dae4;
+}
+
+.pageTitle {
+  margin: 0.3rem 0 0;
+  font-family: var(--f-display);
+  font-size: clamp(1.2rem, 2.4vw, 1.8rem);
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--c-navy);
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem;
+  margin-top: 0.2rem;
+}
+
+.tiles span {
+  aspect-ratio: 4 / 3;
+  border-radius: 6px;
+  background: #e9ecf2;
+  border: 1.5px solid #d5dae4;
+}
+
+/* ---------- Téléphone ---------- */
+.phone {
+  position: relative;
+  align-self: end;
+  width: 42%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 1.4rem 0.7rem 0;
+  background: var(--c-white);
+  border: 2px solid var(--c-navy);
+  border-bottom: 0;
+  border-radius: 20px 20px 0 0;
+}
+
+.notch {
+  position: absolute;
+  top: 0.4rem;
+  left: 50%;
+  translate: -50% 0;
+  width: 30%;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: var(--c-navy);
+}
+
+.phoneTitle {
+  margin: 0;
+  font-family: var(--f-display);
+  font-size: 0.95rem;
+  text-transform: uppercase;
+}
+
+.phoneCard {
+  height: 2.4rem;
+  border-radius: 8px;
+  background: var(--c-navy);
+  box-shadow: inset -2.2rem 0 0 rgba(230, 57, 70, 0.9); /* touche rouge */
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.avatarDot {
+  width: 0.9rem;
+  height: 0.9rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #d5dae4;
+}
+
+.fab {
+  position: absolute;
+  right: 0.6rem;
+  bottom: 0.6rem;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background: var(--c-red);
+}
+
+/* ---------- Fenêtre de bureau (Swing) ---------- */
+.window {
+  width: 100%;
+  height: 100%;
+  align-self: end;
+  display: flex;
+  flex-direction: column;
+  background: var(--c-white);
+  border: 2px solid var(--c-navy);
+  border-bottom: 0;
+  border-radius: 6px 6px 0 0;
+  overflow: hidden;
+}
+
+.titleBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.3rem 0.6rem;
+  background: var(--c-navy);
+  color: var(--c-white);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.winBtns {
+  display: flex;
+  gap: 4px;
+}
+
+.winBtns i {
+  width: 9px;
+  height: 9px;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+}
+
+.winBody {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 26% 1fr;
+}
+
+.sidebar {
+  display: grid;
+  align-content: start;
+  gap: 0.35rem;
+  padding: 0.5rem;
+  background: #e9ecf2;
+}
+
+.sidebar span {
+  height: 0.9rem;
+  border-radius: 3px;
+  background: #d5dae4;
+}
+
+.sidebar span:first-child {
+  background: var(--c-red);
+}
+
+.table {
+  display: grid;
+  align-content: start;
+  gap: 2px;
+  padding: 0.5rem;
+}
+
+.table span {
+  height: 0.9rem;
+  background: #f0f2f6;
+  border-bottom: 1px solid #d5dae4;
+}
+
+.table .thead {
+  background: var(--c-navy);
+}
+
+/* ---------- Maquette vedette : BI Assistant ---------- */
+/* Maquette vedette : fenêtre complète à sa hauteur naturelle, centrée
+   (pas étirée jusqu'en bas comme les petites maquettes) */
+.biBrowser {
+  height: auto;
+  align-self: center;
+  border-bottom: 2px solid var(--c-navy);
+  border-radius: 12px;
+  box-shadow: 0 18px 40px -16px rgba(0, 0, 0, 0.5);
+}
+
+.biBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 0.9rem;
+  font-size: clamp(0.6rem, 0.9vw, 0.78rem);
+}
+
+.bubbleUser {
+  align-self: flex-end;
+  max-width: 80%;
+  padding: 0.45rem 0.7rem;
+  border-radius: 12px 12px 2px 12px;
+  background: var(--c-navy);
+  color: var(--c-white);
+}
+
+.bubbleAi {
+  align-self: flex-start;
+  width: 88%;
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.6rem;
+  border-radius: 12px 12px 12px 2px;
+  background: #e9ecf2;
+}
+
+.sql {
+  display: block;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.95em;
+  line-height: 1.5;
+  color: var(--c-navy);
+}
+
+.sql b {
+  color: var(--c-red);
+  font-weight: 600;
+}
+
+.chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 6%;
+  height: 3.6rem;
+  padding: 0 4%;
+  border-bottom: 2px solid var(--c-navy);
+}
+
+.chart span {
+  flex: 1;
+  border-radius: 3px 3px 0 0;
+  background: var(--c-navy);
+}
+
+.chart span:first-child {
+  background: var(--c-red);
+}

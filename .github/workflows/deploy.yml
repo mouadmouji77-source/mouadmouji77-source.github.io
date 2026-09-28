@@ -1,0 +1,55 @@
+# Déploiement automatique sur GitHub Pages.
+# À chaque push sur main : GitHub installe les dépendances, compile le site
+# (npm run build → dossier dist/) et publie dist/ sur https://mouadmouji77-source.github.io
+name: Déployer sur GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # permet aussi de relancer le déploiement à la main (onglet Actions)
+
+# Droits minimum nécessaires pour publier sur Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Un seul déploiement à la fois : un nouveau push annule le précédent en cours
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Installer Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm # met en cache les dépendances pour accélérer les builds suivants
+
+      - name: Installer les dépendances (versions exactes du package-lock.json)
+        run: npm ci
+
+      - name: Compiler le site
+        run: npm run build
+
+      - name: Préparer le dossier dist/ pour Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publier sur GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

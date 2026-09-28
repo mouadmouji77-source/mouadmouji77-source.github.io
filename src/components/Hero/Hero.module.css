@@ -1,0 +1,291 @@
+/* ==========================================================================
+   HERO — mise en page "affiche" :
+   ┌───────────────────────────────────────────┐
+   │ Mouad Mouji                 ● Disponible  │  ← .meta
+   │            P O R T F O L I O              │  ← .bigWord (toute la largeur)
+   │  Hi, I'm ...        ┌──────────┐          │
+   │  sous-titre         │  avatar  │ doodles  │  ← .intro (col. 1) / .stage (col. 2)
+   │  [boutons]          └──────────┘          │     l'avatar chevauche le mot géant
+   └───────────────────────────────────────────┘
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  column-gap: 2rem;
+  padding: clamp(4.5rem, 9vh, 6.5rem) var(--gutter) clamp(2rem, 5vh, 3.5rem);
+  overflow: hidden;
+  isolation: isolate; /* nouveau contexte d'empilement pour les z-index */
+}
+
+/* --- Ligne éditoriale du haut --- */
+.meta {
+  position: absolute;
+  top: 1.4rem;
+  left: var(--gutter);
+  right: var(--gutter);
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--c-navy);
+  padding-bottom: 0.6rem;
+}
+
+.metaRight {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Pastille "disponible" qui pulse doucement */
+.dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--c-red);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* --- Mot géant PORTFOLIO --- */
+.bigWord {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  z-index: 1;
+  margin: 0;
+  font-family: var(--f-display);
+  font-size: clamp(4.5rem, 15.5vw, 19rem);
+  line-height: 0.82;
+  text-align: center;
+  color: var(--c-navy);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.letter {
+  display: inline-block; /* nécessaire pour animer y / rotation par lettre */
+}
+
+/* --- Scène de l'avatar --- */
+.stage {
+  grid-column: 2;
+  grid-row: 1 / span 2; /* chevauche la ligne du mot géant */
+  align-self: end;
+  justify-self: center;
+  position: relative;
+  z-index: 2; /* devant le mot géant */
+  /* Largeur limitée aussi par la hauteur d'écran : l'avatar tient toujours */
+  width: min(100%, 34rem, 56svh);
+  aspect-ratio: 4 / 5;
+  margin-top: clamp(3rem, 8vw, 9rem);
+}
+
+/* Ombre au sol, sous les pieds de l'avatar */
+.stage::after {
+  content: "";
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: -0.6rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(27, 42, 74, 0.22), transparent);
+  z-index: -1;
+}
+
+.avatarStack {
+  position: absolute;
+  inset: 0;
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+}
+
+/* Calque couleur : un masque en dégradé vertical, piloté par --reveal.
+   --reveal = -25%  → masque entièrement transparent (on ne voit que le croquis)
+   --reveal = 125%  → masque entièrement opaque (tout est colorié)
+   Valeur par défaut = 125% : sans animation, l'avatar est en couleur. */
+.colorLayer {
+  --reveal: 125%;
+  -webkit-mask-image: linear-gradient(
+    to top,
+    #000 calc(var(--reveal) - 25%),
+    transparent var(--reveal)
+  );
+  mask-image: linear-gradient(to top, #000 calc(var(--reveal) - 25%), transparent var(--reveal));
+}
+
+/* --- Bloc de présentation --- */
+.intro {
+  grid-column: 1;
+  grid-row: 2;
+  align-self: center;
+  z-index: 3;
+  max-width: 34rem;
+  padding-block: 2rem;
+}
+
+/* Sur-titre rouge en majuscules */
+.kicker {
+  margin: 0 0 0.4rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--c-red);
+}
+
+.title {
+  margin: 0 0 0.8rem;
+  font-family: var(--f-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.95;
+}
+
+/* Mot manuscrit rouge */
+.hi {
+  display: block;
+  width: fit-content;
+  font-family: var(--f-hand);
+  font-weight: 700;
+  font-size: clamp(2.4rem, 4vw, 3.4rem);
+  text-transform: none;
+  color: var(--c-red);
+  transform: rotate(-6deg);
+  line-height: 1;
+  margin-bottom: 0.2rem;
+}
+
+.titleLine {
+  display: block;
+  font-size: clamp(2.4rem, 4.6vw, 4.4rem);
+}
+
+/* Surligneur jaune (1re des 2 utilisations autorisées) :
+   un dégradé qui ne couvre que la moitié basse du texte, comme un vrai feutre */
+.highlight {
+  background: linear-gradient(
+    transparent 52%,
+    var(--c-yellow) 52%,
+    var(--c-yellow) 88%,
+    transparent 88%
+  );
+  padding-inline: 0.12em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.subtitle {
+  margin: 0 0 1rem;
+  font-weight: 600;
+  font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+}
+
+.sep {
+  color: var(--c-red);
+  margin-inline: 0.5em;
+}
+
+.lead {
+  margin: 0 0 1.8rem;
+  max-width: 30rem;
+  color: var(--c-muted);
+  font-size: 0.97rem;
+}
+
+/* --- Boutons façon "comics" : bordure + ombre décalée --- */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.8rem 1.35rem;
+  border: 2px solid var(--c-navy);
+  border-radius: 999px;
+  background: var(--c-bg);
+  color: var(--c-navy);
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none;
+  box-shadow: 4px 4px 0 var(--c-navy);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--c-navy);
+}
+
+.btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--c-navy);
+}
+
+.btnPrimary {
+  background: var(--c-navy);
+  color: var(--c-white);
+  box-shadow: 4px 4px 0 var(--c-red);
+}
+
+.btnPrimary:hover {
+  box-shadow: 6px 6px 0 var(--c-red);
+}
+
+.btnPrimary:active {
+  box-shadow: 2px 2px 0 var(--c-red);
+}
+
+/* --- Mobile : tout s'empile, titres réduits, avatar plus petit --- */
+@media (max-width: 820px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    padding-top: 4.5rem;
+  }
+
+  .bigWord {
+    font-size: 18vw;
+  }
+
+  .stage {
+    grid-column: 1;
+    grid-row: 2;
+    width: min(72%, 20rem);
+    margin-top: -3vw; /* l'avatar mord toujours un peu sur le mot */
+  }
+
+  .intro {
+    grid-column: 1;
+    grid-row: 3;
+    padding-top: 2.5rem;
+  }
+
+  .meta {
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot {
+    animation: none;
+  }
+}
